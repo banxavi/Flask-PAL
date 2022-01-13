@@ -80,6 +80,8 @@ def update_emp():
 		respone = jsonify('Employee updated successfully!')
 		respone.status_code = 200
 		return respone
+	else:
+		return not_found()
 		
 
 @app.route('/delete/<int:id>', methods=['DELETE'])
