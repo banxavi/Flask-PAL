@@ -4,6 +4,22 @@ from config import mysql
 from flask import jsonify, request
 
 
+@app.route('/login', methods=['GET'])
+def login():
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT email, password FROM rest_emp")
+		empRows = cursor.fetchall()
+		respone = jsonify(empRows)
+		respone.status_code = 200
+		return respone
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close() 
+		conn.close()
+
 @app.route('/emp', methods=['GET'])
 def emp():
 	try:
@@ -36,6 +52,21 @@ def emp_id(id):
 		cursor.close() 
 		conn.close()
 
+@app.route('/emp/<string:email>')
+def emp_email(email):
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT id FROM rest_emp WHERE email =%s", email)
+		empRow = cursor.fetchone()
+		respone = jsonify(empRow)
+		respone.status_code = 200
+		return respone
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close() 
+		conn.close()
 		
 @app.route('/add', methods=['POST'])
 def add_emp():
