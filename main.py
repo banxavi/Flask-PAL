@@ -3,7 +3,6 @@ from app import app
 from config import mysql
 from flask import jsonify, request
 
-
 @app.route('/login', methods=['GET'])
 def login():
 	try:
@@ -93,20 +92,19 @@ def add_emp():
 		return not_found()
 
 
-@app.route('/update', methods=['PUT'])
-def update_emp():
+@app.route('/update/<int:id>', methods=['PUT'])
+def update_emp(id):
 	
 	_json = request.json
-	_id = _json['id']
 	_name = _json['name']
 	_email = _json['email']
 	_phone = _json['phone']
 	_address = _json['address']
 	_image = _json['image']	
 	# validate the received values
-	if _name and _email and _phone and _address and _id and _image and request.method == 'PUT':			
+	if _name and _email and _phone and _address and id and _image and request.method == 'PUT':			
 		sqlQuery = "UPDATE rest_emp SET name=%s, email=%s, phone=%s, address=%s, image=%s WHERE id=%s"
-		bindData = (_name, _email, _phone, _address, _id,_image,)
+		bindData = (_name, _email, _phone, _address, _image, id,)
 		conn = mysql.connect()
 		cursor = conn.cursor()
 		cursor.execute(sqlQuery, bindData)
@@ -143,6 +141,6 @@ def not_found(error=None):
     respone = jsonify(message)
     respone.status_code = 404
     return respone
-		
+
 if __name__ == "__main__":
     app.run(debug=True)
