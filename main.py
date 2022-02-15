@@ -35,7 +35,7 @@ def emp():
 		cursor.close() 
 		conn.close()
 		
-@app.route('/emp/<int:id>')
+@app.route('/emp/edit/<int:id>')
 def emp_id(id):
 	try:
 		conn = mysql.connect()
@@ -51,13 +51,15 @@ def emp_id(id):
 		cursor.close() 
 		conn.close()
 
-@app.route('/emp/<string:email>')
-def emp_email(email):
+@app.route('/emp/<string:input>')
+def emp_email(input):
 	try:
+		sqlQuery = "SELECT email, name, phone, address, image from rest_emp where email like %s or phone like %s or address like %s or name like %s" # Query Mysql
+		bindData = (input+'%', input+'%', input+'%', input+'%') # Data input (tuple)
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id FROM rest_emp WHERE email =%s", email)
-		empRow = cursor.fetchone()
+		cursor.execute(sqlQuery, bindData)
+		empRow = cursor.fetchall()
 		respone = jsonify(empRow)
 		respone.status_code = 200
 		return respone
@@ -85,7 +87,7 @@ def add_emp():
 		cursor = conn.cursor()	# used to execute statements to communicate with the MySQL database ( similar libraries)
 		cursor.execute(sqlQuery, bindData) # Excecute query
 		conn.commit()  #  provides the database confirmation regarding the changes made by a user or an application in the database.
-		respone = jsonify('Employee added successfully!') # Show them when test on postman
+		respone = jsonify('Employee added successfully!') # Show them when test
 		respone.status_code = 200 # set status
 		return respone # Return object json
 	else:
@@ -97,14 +99,12 @@ def update_emp(id):
 	
 	_json = request.json
 	_name = _json['name']
-	_email = _json['email']
 	_phone = _json['phone']
 	_address = _json['address']
-	_image = _json['image']	
 	# validate the received values
-	if _name and _email and _phone and _address and id and _image and request.method == 'PUT':			
-		sqlQuery = "UPDATE rest_emp SET name=%s, email=%s, phone=%s, address=%s, image=%s WHERE id=%s"
-		bindData = (_name, _email, _phone, _address, _image, id,)
+	if _name  and _phone and _address and id and request.method == 'PUT':			
+		sqlQuery = "UPDATE rest_emp SET name=%s, phone=%s, address=%s WHERE id=%s"
+		bindData = (_name, _phone, _address, id,)
 		conn = mysql.connect()
 		cursor = conn.cursor()
 		cursor.execute(sqlQuery, bindData)
