@@ -11,5 +11,10 @@ pipeline {
                 echo 'Testing'
             }
         }
+        stage('Deployment') {
+            steps {
+                echo 'Deployment for Python version 10'
+            }
+        }
     }
 }
