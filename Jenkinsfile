@@ -16,5 +16,10 @@ pipeline {
                 echo 'Deployment for Python version 10'
             }
         }
+        stage('Production') {
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
     }
 }
