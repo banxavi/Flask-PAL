@@ -1,3 +1,4 @@
+from matplotlib import image
 import pymysql
 from app import app
 from config import mysql
@@ -24,7 +25,7 @@ def emp():
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, name, email, password ,phone, address, image FROM rest_emp")
+		cursor.execute("SELECT id, name, email, password ,phone, address, image, position FROM rest_emp")
 		empRows = cursor.fetchall()
 		respone = jsonify(empRows)
 		respone.status_code = 200
@@ -40,7 +41,7 @@ def emp_id(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, name, email, phone, address FROM rest_emp WHERE id =%s", id)
+		cursor.execute("SELECT id, name, email, phone, address, position FROM rest_emp WHERE id =%s", id)
 		empRow = cursor.fetchone()
 		respone = jsonify(empRow)
 		respone.status_code = 200
@@ -51,11 +52,12 @@ def emp_id(id):
 		cursor.close() 
 		conn.close()
 
-@app.route('/emp/<string:input>')
+@app.route('/search/<string:input>')
 def emp_email(input):
 	try:
-		sqlQuery = "SELECT email, name, phone, address, image from rest_emp where email like %s or phone like %s or address like %s or name like %s" # Query Mysql
-		bindData = (input+'%', input+'%', input+'%', input+'%') # Data input (tuple)
+		sqlQuery = "SELECT email, name, phone, address, image, position from rest_emp \
+			where email like %s or phone like %s or address like %s or name like %s or position like %s" # Query Mysql
+		bindData = (input+'%', input+'%', input+'%', input+'%', input+'%') # Data input (tuple)
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute(sqlQuery, bindData)
@@ -78,11 +80,12 @@ def add_emp():
 	_phone = _json['phone']
 	_address = _json['address']	
 	_password = _json['password']	
-	_image = _json['image']	
+	_position = _json['position']
+	_image = _json['image']
 
-	if _name and _email and _phone and _address and _password and _image and request.method == 'POST':			
-		sqlQuery = "INSERT INTO rest_emp(name, email, password, phone, address, image) VALUES(%s, %s, %s, %s, %s, %s)" # Query Mysql
-		bindData = (_name, _email, _password, _phone, _address, _image) # Data input (tuple)
+	if _name and _email and _phone and _address and _password and _position and request.method == 'POST':			
+		sqlQuery = "INSERT INTO rest_emp(name, email, password, phone, address, position, image) VALUES(%s, %s, %s, %s, %s, %s, %s)" # Query Mysql
+		bindData = (_name, _email, _password, _phone, _address, _position, _image) # Data input (tuple)
 		conn = mysql.connect()	# Connect to mysql server
 		cursor = conn.cursor()	# used to execute statements to communicate with the MySQL database ( similar libraries)
 		cursor.execute(sqlQuery, bindData) # Excecute query
