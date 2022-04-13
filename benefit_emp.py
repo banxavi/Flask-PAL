@@ -58,7 +58,7 @@ def benefit_edit(id):
 
 @app.route('/update/benefit/<int:id>', methods=['PUT'])
 def update_emp_benefit(id):
-	json = request.json
+	_json = request.json
 	
 	_json = request.json
 	_experiences = _json['experiences']
@@ -71,7 +71,7 @@ def update_emp_benefit(id):
 	# validate the received values
 	# if _experiences  and _insuarance and _last_salary and _current_salary and _PA_Toeic and _PA_Perform and id and request.method == 'PUT':			
 	sqlQuery = "UPDATE bnf_emp SET experiences=%s, insuarance=%s, last_salary=%s, current_salary=%s, PA_Toeic=%s, PA_Perform=%s WHERE bnf_emp.id=%s"
-	bindData = (_experiences, _insuarance, _last_salary, _current_salary, _PA_Toeic, _PA_Perform, 100,)
+	bindData = (_experiences, _insuarance, _last_salary, _current_salary, _PA_Toeic, _PA_Perform, id,)
 	conn = mysql.connect()
 	cursor = conn.cursor()
 	cursor.execute(sqlQuery, bindData)
