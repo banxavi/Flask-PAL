@@ -1,27 +1,49 @@
--- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
---
--- Host: localhost    Database: webapp
--- ------------------------------------------------------
--- Server version	8.0.27
+/*
+ Navicat Premium Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ Source Server         : 172.17.0.2
+ Source Server Type    : MySQL
+ Source Server Version : 80028
+ Source Host           : 172.17.0.2:3306
+ Source Schema         : webapp
 
---
--- Table structure for table `rest_emp`
---
+ Target Server Type    : MySQL
+ Target Server Version : 80028
+ File Encoding         : 65001
 
+ Date: 13/04/2022 13:54:39
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for bnf_emp
+-- ----------------------------
+DROP TABLE IF EXISTS `bnf_emp`;
+CREATE TABLE `bnf_emp` (
+  `id` int NOT NULL,
+  `experiences` int NOT NULL,
+  `insuarance` int NOT NULL,
+  `last_salary` decimal(10,2) NOT NULL,
+  `current_salary` decimal(10,2) NOT NULL,
+  `PA_Toeic` int DEFAULT NULL,
+  `PA_Perform` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_benefit` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of bnf_emp
+-- ----------------------------
+BEGIN;
+INSERT INTO `bnf_emp` (`id`, `experiences`, `insuarance`, `last_salary`, `current_salary`, `PA_Toeic`, `PA_Perform`, `id_benefit`) VALUES (94, 5, 4, 9000.00, 10000.00, 3000, 'Excellent', '');
+INSERT INTO `bnf_emp` (`id`, `experiences`, `insuarance`, `last_salary`, `current_salary`, `PA_Toeic`, `PA_Perform`, `id_benefit`) VALUES (100, 11, 21, 10000.00, 4.00, 5, 'Bad', '');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for rest_emp
+-- ----------------------------
 DROP TABLE IF EXISTS `rest_emp`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rest_emp` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -30,27 +52,23 @@ CREATE TABLE `rest_emp` (
   `address` text,
   `password` varchar(45) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `rest_emp`
---
+-- ----------------------------
+-- Records of rest_emp
+-- ----------------------------
+BEGIN;
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (94, 'Nhat Thanh', 'banxaxvi@gmail.com', '0982640106', 'Nguyen Van Troi', '123456', 'blob:http://localhost:3000/cf658153-1716-4ff6-b508-48a653bec657', 'SME');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (100, 'Nhat Thanh', 'banxaxvi@gmail.com', '0982640106', 'Nguyen Van Troi 17', '123456', 'blob:http://localhost:3000/cf658153-1716-4ff6-b508-48a653bec657', 'DIRECTOR');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (105, 'Nhat', 'banxaxvi@gmail.com', '0982640106', 'Nguyen Van TrAM', '123456', 'blob:http://localhost:3000/cf658153-1716-4ff6-b508-48a653bec657', 'TESTER');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (106, 'Nh2', 'banxavi@gmail.com', '0982640106', 'Phú Yên', '123456', 'blob:http://localhost:3000/1808edad-46eb-4bbc-a51d-b6cc35a14452', 'TEAMLEAD');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (108, 'axa', 'cax@gmail.com', '123', '1233', '123456', 'blob:http://localhost:3000/484c6484-88e9-4dcb-8f27-2c7cc95ab77c', 'SME');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (109, 'axz', 'bvax@gas2', '12', '123', '123456', 'blob:http://localhost:3000/a79823e5-6292-4639-bd03-846acb5415e1', 'PM');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (110, 'Nhat BAN', 'banxavi@gmail.com1', '0982640106', 'Phú Yên1', '123456', '', 'DIRECTOR');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (111, '123', 'banxav2@gmail.com', '213', '123', '123456', 'blob:http://localhost:3000/191aec8f-f1ec-4238-98c7-53351d43f7ec', 'PM');
+INSERT INTO `rest_emp` (`id`, `name`, `email`, `phone`, `address`, `password`, `image`, `position`) VALUES (112, '121', 'axa@gmail.com', '213312', '12312', '123456', 'blob:http://localhost:3000/215df486-addb-41d2-8f97-6506ce71455f', 'PM');
+COMMIT;
 
-LOCK TABLES `rest_emp` WRITE;
-/*!40000 ALTER TABLE `rest_emp` DISABLE KEYS */;
-INSERT INTO `rest_emp` VALUES (2,'emx','23','22','24','123456','https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'),(3,'Smith','smith@webdamn.com','1234567890','Newyork, USA','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(4,'Join son','join@gmail.com','123','123','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(5,'Smith','smith@webdamn.com','1234567890','Newyork, USA','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(6,'Smith','smith@webdamn.com','1234567890','Newyork, USA','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(7,'ban cute','smith@webdamn.com','1234567890','Newyork, USA','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(8,'long ca','smith@webdamn.com','1234567890','Newyork, USA','123456','https://kenh14cdn.com/2020/6/30/img0096-1592366363868430058761-1593507888983990295582.jpeg'),(9,'thiet nguyen','thiet@gmail.net','1232','Nong Long','444444','https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350');
-/*!40000 ALTER TABLE `rest_emp` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-01-13  9:54:25
+SET FOREIGN_KEY_CHECKS = 1;
