@@ -1,4 +1,3 @@
-from matplotlib import image
 import pymysql
 from app import app
 from config import mysql
@@ -20,12 +19,12 @@ def login():
 		cursor.close() 
 		conn.close()
 
-@app.route('/emp', methods=['GET'])
-def emp():
+@app.route('/employee', methods=['GET'])
+def Employee():
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, name, email, password ,phone, address, image, position FROM rest_emp")
+		cursor.execute("SELECT id, name, email, password ,phone, address, image, position FROM rest_emp ORDER BY id desc ")
 		empRows = cursor.fetchall()
 		respone = jsonify(empRows)
 		respone.status_code = 200
@@ -36,7 +35,7 @@ def emp():
 		cursor.close() 
 		conn.close()
 		
-@app.route('/emp/edit/<int:id>')
+@app.route('/employee/edit/<int:id>')
 def emp_id(id):
 	try:
 		conn = mysql.connect()
@@ -56,7 +55,7 @@ def emp_id(id):
 def emp_email(input):
 	try:
 		sqlQuery = "SELECT email, name, phone, address, image, position from rest_emp \
-			where email like %s or phone like %s or address like %s or name like %s or position like %s" # Query Mysql
+			where email like %s or phone like %s or address like %s or name like %s or position like %s ORDER BY id desc" # Query Mysql
 		bindData = (input+'%', input+'%', input+'%', input+'%', input+'%') # Data input (tuple)
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -104,6 +103,7 @@ def update_emp(id):
 	_name = _json['name']
 	_phone = _json['phone']
 	_address = _json['address']
+
 	# validate the received values
 	if _name  and _phone and _address and id and request.method == 'PUT':			
 		sqlQuery = "UPDATE rest_emp SET name=%s, phone=%s, address=%s WHERE id=%s"
@@ -114,6 +114,7 @@ def update_emp(id):
 		conn.commit()
 		respone = jsonify('Employee updated successfully!')
 		respone.status_code = 200
+		print(respone)
 		return respone
 	else:
 		return not_found()
@@ -144,6 +145,3 @@ def not_found(error=None):
     respone = jsonify(message)
     respone.status_code = 404
     return respone
-
-if __name__ == "__main__":
-    app.run(debug=True)
