@@ -6,6 +6,10 @@ import logging
 
 logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
+@app.route('/', methods=['GET'])
+def home():
+	return "This is home"
+
 @app.route('/login', methods=['GET'])
 def login():
 	
