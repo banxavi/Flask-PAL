@@ -47,5 +47,4 @@ virtualenv==20.11.2
 Werkzeug==2.0.2
 wsproto==1.0.0
 WTForms==3.0.1
-https://docs.google.com/presentation/d/1g757IoI5sszv6HE5NqNLuihmhtpEHio0lIoqb_gRAIQ/edit#slide=id.g1154174184b_2_175
-https://docs.google.com/presentation/d/1S7lJHd1DmVePilCI_1OJ8t2hMHSAFELABMxQF6CSs6w/edit#slide=id.p12
+

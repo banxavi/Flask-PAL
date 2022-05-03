@@ -1,10 +1,14 @@
 import pymysql
 from app import app
-from config import mysql
+from config import mysql, localhost
 from flask import jsonify, request
+import logging
+
+logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @app.route('/login', methods=['GET'])
 def login():
+	
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -12,6 +16,8 @@ def login():
 		empRows = cursor.fetchall()
 		respone = jsonify(empRows)
 		respone.status_code = 200
+		app.logger.info('Info level log')
+
 		return respone
 	except Exception as e:
 		print(e)
