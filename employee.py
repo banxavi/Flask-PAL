@@ -1,34 +1,31 @@
+from urllib import response
 import pymysql
 from app import app
-from config import mysql, localhost
+from config import mysql
 from flask import jsonify, request
-import logging
+# import logging
 
-logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+# logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @app.route('/', methods=['GET'])
 def home():
 	return "This is home"
 
-@app.route('/login', methods=['GET'])
-def login():
-	
-	try:
+@app.route('/checklogin', methods=['POST'])
+def checklogin():
+	_json = request.json
+	_email = _json['email']
+	_password = _json['password']	
+	if _email and _password and request.method == 'POST':
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT email, password FROM rest_emp")
-		empRows = cursor.fetchall()
-		respone = jsonify(empRows)
-		respone.status_code = 200
-		app.logger.info('Info level log')
-
-		return respone
-	except Exception as e:
-		print(e)
-	finally:
-		cursor.close() 
-		conn.close()
-
+		sqlQuery = "SELECT count(*) AS isUser FROM rest_emp WHERE email = %s AND password = %s"
+		bindData = (_email, _password)
+		cursor.execute(sqlQuery, bindData)
+		empRows = cursor.fetchone()
+		return empRows
+	else:
+    		return not_found
 @app.route('/employee', methods=['GET'])
 def Employee():
 	try:
